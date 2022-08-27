@@ -1,0 +1,49 @@
+extends layout
+
+block layout-content
+    nav(class="navbar navbar-dark bg-dark")
+        h1(class="text-light")
+            strong StockCrock
+
+    if apiKeyProvided
+        div(class="alert alert-success")
+            | Polygon.io API Key used is: #[strong #{apiKey}]
+
+        if resultDescription
+            div(class="alert alert-info")=resultDescription
+
+        if flattenedStockPriceResults
+
+            div(class="table-responsive")
+                table(class="table table-dark table-hover")
+                    thead
+                        tr
+                            th Ticker
+                            th Company
+                            th Date
+                            th Open Price
+                            th Close Price
+                            th Price Difference
+                            th Highest Price
+                            th Lowest Price
+                            th Number of Transactions
+                            th Trading Volume
+                            th Volume Weighted Average Price
+                    tbody(class="table-group-divider")
+                        each result in flattenedStockPriceResults
+                            tr
+                                td=result.ticker
+                                td=result.company
+                                td=result.date
+                                td=result.openPrice
+                                td=result.closePrice
+                                td=result.priceDifference
+                                td=result.highestPrice
+                                td=result.lowestPrice
+                                td=result.numberOfTransaction
+                                td=result.tradingVolume
+                                td=result.volumeWeightedAveragePrice
+
+    else
+        div(class="alert alert-danger")
+            | Polygon.io API Key has to be specified as environment variable #[strong APIKEY] when running the app.
